@@ -1,5 +1,38 @@
 #!/bin/bash
 
+# Script for organizing and processing Distributed Acoustic Sensing (DAS) data files.
+#
+# This script takes an input directory containing HDF5 (.h5) files and organizes them into a structured 
+# directory format based on metadata extracted from filenames. It supports customizable project and base 
+# directory names, sample rate detection, and a dry-run mode for testing without making changes.
+#
+# Usage:
+#   ./script.sh -i INPUT_DIR [-b BASE_DIR] [-p PROJECT_NAME] [-s SAMPLE_RATE] [-d|--dry-run]
+#
+# Options:
+#   -i, --inputDir     Path to the directory containing the raw .h5 files (required).
+#   -b, --baseDir      Base directory for storing organized data (default: /data/jbod1/das4orcas).
+#   -p, --projectName  Project name used in file organization (default: das4orcas).
+#   -s, --sampleRate   Optional sample rate; if not provided, it is inferred from filenames.
+#   -d, --dry-run      If set, no actual changes are made—only prints actions.
+#   -h, --help         Displays usage information and exits.
+#
+# Functionality:
+#   - Validates the presence of an input directory.
+#   - Removes trailing slashes from paths for consistency.
+#   - Extracts sample rate from filenames if not explicitly provided.
+#   - Parses timestamps from filenames to organize files by date.
+#   - Processes .h5 files and moves them into a structured directory hierarchy.
+#   - Supports parallel execution using exported environment variables.
+#
+# Example:
+#   ./script.sh -i /path/to/raw_data -b /output/das_data -p projectX -s 1000 -d
+#   (This runs in dry-run mode, showing how files would be processed without moving them.)
+#
+# Notes:
+#   - Filenames should follow the pattern: *_YYYY-MM-DD_HH.MM.SS_UTC*.h5 for proper date extraction.
+#   - Sample rate is inferred from directory name if not provided explicitly.
+
 # Default values
 BASE_DIR="/data/jbod1/das4orcas"
 PROJECT_NAME="das4orcas"

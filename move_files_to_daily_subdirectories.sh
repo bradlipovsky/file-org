@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# This script reorganizes decimator .h5 files into daily subdirectories based on the date in the filename.
+# This script reorganizes decimator .h5 files into daily subdirectories based on the date in the filename
+# Assumes that the files are already sorted into monthly directories, like this:
+#      /data/jbod1/rainier/2023/08/
 #
 # Usage:
 #   ./move_files_to_daily_subdirectories.sh <target_directory> [-d|--dry-run]
